@@ -1,28 +1,5 @@
 <!DOCTYPE html>
-<?php
-    include("connexion.php");
-    $id =$_SESSION['ID'];
-    $pseudo = $_SESSION['pseudo'];
-if(isset($_SESSION['ID']))
-{
-    if (!empty($_SESSION['ID']));
-    {
-        $req = $bdd->prepare('SELECT pseudo, message FROM user LEFT JOIN message ON user.id = messages.userID');
-        $req->execute();
-		if (isset($_SESSION['pseudo']) AND isset($_POST['messages']) AND !empty($_POST['messages']))
-		{
-			$messages = htmlspecialchars($_POST['messages']);
-			$insertmsg = $bdd->prepare('INSERT INTO messages(message) VALUES(:param)');
-            $insertmsg->bindParam(':param', $mymess, PDO::PARAM_STR);
-			$insertmsg->execute();
-		}
-    }
-}
-else
-{
-    header('Location:index.php');
-}
-?>
+<?php include("minichatmodele.php"); ?>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -31,6 +8,11 @@ else
         <link rel="stylesheet" href="css/bootstrap.css">
     </head>
     <body class="bg-warning text-dark font-weight-bold" style="background-image:url(img/blason_fond.png); background-repeat:no-repeat; background-position:50% -50%;">
+        <form action="disconnect.php">
+           <button type="submit" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="se deconnecter">
+                  deconnexion
+                </button>
+        </form>
         <div>
 
         	<form action="minichat_post.php" method="POST" class="fixed-bottom text-center p-3 mb-2 bg-primary text-white">
