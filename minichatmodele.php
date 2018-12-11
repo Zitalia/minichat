@@ -1,7 +1,19 @@
 <?php
     include("connexion.php");
-    $id =$_SESSION['ID'];
-    $pseudo = $_SESSION['pseudo'];
+
+    function insertMessage($msg, $bdd) {
+        $messages = htmlspecialchars($msg);
+        $insertmsg = $bdd->prepare('INSERT INTO messages (message, userID, id) VALUES (:param, :id, NULL);');
+        $insertmsg->bindParam(':param', $messages, PDO::PARAM_STR);
+        $insertmsg->bindParam(':id', $_SESSION['ID'], PDO::PARAM_INT);
+        $insertmsg->execute();
+    }
+
+
+
+
+$id =$_SESSION['ID'];
+$pseudo = $_SESSION['pseudo'];
 if(isset($_SESSION['ID']))
 {
     if (!empty($_SESSION['ID']));
